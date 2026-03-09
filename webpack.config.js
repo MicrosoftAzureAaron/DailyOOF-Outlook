@@ -13,6 +13,7 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, "dist"),
       filename: "[name].bundle.js",
       clean: true,
+      publicPath: isDev ? "/" : "/DailyOOF-Outlook/",
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],

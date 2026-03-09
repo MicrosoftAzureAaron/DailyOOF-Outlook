@@ -34,7 +34,44 @@ An Outlook Add-in for managing Exchange Online Out of Office (OOF) auto-reply me
 
 ---
 
-## Setup
+## Install (End Users)
+
+The add-in is hosted on GitHub Pages — no build steps required.
+
+### 1. Register an Entra ID App
+
+> Your tenant admin may need to do this once. All users in the org can then use the add-in.
+
+1. Go to [Azure Portal → App registrations](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade)
+2. Click **New registration**
+   - Name: `Daily OOF Outlook Add-in`
+   - Supported account types: **Accounts in any organizational directory**
+   - Redirect URI: **Single-page application (SPA)** → `https://microsoftazureaaron.github.io`
+3. After creation, copy the **Application (client) ID**
+4. Go to **API permissions** → Add:
+   - `User.Read` (delegated)
+   - `MailboxSettings.ReadWrite` (delegated)
+5. Click **Grant admin consent** (or have your admin do this)
+
+### 2. Sideload the Add-in
+
+#### Outlook on the Web
+1. Download [`manifest.xml`](https://raw.githubusercontent.com/MicrosoftAzureAaron/DailyOOF-Outlook/main/manifest.xml) from this repo
+2. Go to **Outlook on the web** → **Settings** (gear icon) → **View all Outlook settings**
+3. Go to **Mail** → **Customize actions** → **Get add-ins** → **My add-ins**
+4. Click **Add a custom add-in** → **Add from file...**
+5. Select the downloaded `manifest.xml`
+
+#### Org-Wide Deployment (Admin)
+1. Go to [Microsoft 365 admin center → Integrated Apps](https://admin.microsoft.com/Adminportal/Home#/Settings/IntegratedApps)
+2. Click **Upload custom apps** → **Office Add-in** → **Upload manifest file**
+3. Upload the `manifest.xml` and assign to users/groups
+
+---
+
+## Development Setup
+
+If you want to run the add-in locally or contribute to the project:
 
 ### 1. Install Node.js
 
@@ -52,20 +89,7 @@ cd DailyOOF-Outlook
 npm install
 ```
 
-### 3. Register an Entra ID App
-
-1. Go to [Azure Portal → App registrations](https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade)
-2. Click **New registration**
-   - Name: `Daily OOF Outlook Add-in`
-   - Supported account types: **Accounts in any organizational directory**
-   - Redirect URI: **Single-page application (SPA)** → `https://localhost:3000`
-3. After creation, copy the **Application (client) ID**
-4. Go to **API permissions** → Add:
-   - `User.Read` (delegated)
-   - `MailboxSettings.ReadWrite` (delegated)
-5. Click **Grant admin consent** (or have your admin do this)
-
-### 4. Configure the Client ID
+### 3. Configure the Client ID
 
 Open `src/taskpane/services/authService.ts` and replace:
 
@@ -73,9 +97,9 @@ Open `src/taskpane/services/authService.ts` and replace:
 clientId: "YOUR_CLIENT_ID_HERE",
 ```
 
-with your Application (client) ID from step 3.
+with your Entra ID Application (client) ID.
 
-### 5. Start Development Server
+### 4. Start Development Server
 
 ```bash
 npm run dev
@@ -83,13 +107,14 @@ npm run dev
 
 This starts a local HTTPS server at `https://localhost:3000`.
 
-### 6. Sideload the Add-in
+> **Note:** For local development, the `manifest.xml` URLs need to point to `https://localhost:3000` instead of GitHub Pages. You can use the dev manifest or temporarily modify the URLs.
+
+### 5. Sideload for Testing
 
 #### Outlook on the Web
-1. Go to **Outlook on the web** → **Settings** (gear icon) → **View all Outlook settings**
-2. Go to **Mail** → **Customize actions** → **Get add-ins** → **My add-ins**
-3. Click **Add a custom add-in** → **Add from file...**
-4. Select the `manifest.xml` file from this project
+1. Go to **Outlook on the web** → **Settings** → **Get add-ins** → **My add-ins**
+2. Click **Add a custom add-in** → **Add from file...**
+3. Select the `manifest.xml` file from this project
 
 #### Outlook Desktop (Windows)
 ```bash
@@ -151,14 +176,19 @@ DailyOOF-Outlook/
 
 ## Deployment
 
-For production, host the built files on **Azure Static Web Apps** (free tier) or similar:
+The add-in is automatically built and deployed to **GitHub Pages** on every push to `main` via GitHub Actions.
+
+- **Live URL:** `https://microsoftazureaaron.github.io/DailyOOF-Outlook/`
+- **Workflow:** [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+
+To build manually:
 
 ```bash
 npm run build
-# Deploy the contents of /dist to your hosting service
+# Output is in /dist
 ```
 
-Then update all `https://localhost:3000` URLs in `manifest.xml` to your production URL and distribute via the Microsoft 365 admin center.
+Then update all URLs in `manifest.xml` to your production URL and distribute via the Microsoft 365 admin center.
 
 ---
 
