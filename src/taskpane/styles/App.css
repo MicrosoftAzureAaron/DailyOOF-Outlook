@@ -1,0 +1,162 @@
+/* ─── Layout ─────────────────────────────────────────────────── */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+}
+
+/* ─── Status Bar ─────────────────────────────────────────────── */
+.status-bar {
+  padding: 6px 16px;
+  background: #f3f3f3;
+  border-top: 1px solid #e0e0e0;
+  font-size: 12px;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.status-bar.error {
+  color: #d32f2f;
+  background: #fdecea;
+}
+
+.status-bar.success {
+  color: #2e7d32;
+  background: #edf7ed;
+}
+
+/* ─── Section Cards ──────────────────────────────────────────── */
+.section {
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* ─── Form Controls ──────────────────────────────────────────── */
+.field-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.field-row label {
+  min-width: 90px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+}
+
+.button-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* ─── Status Display ─────────────────────────────────────────── */
+.status-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  font-size: 12px;
+  margin: 8px 0;
+}
+
+.status-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.status-value {
+  color: #333;
+}
+
+.status-value.enabled {
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+.status-value.disabled {
+  color: #d32f2f;
+}
+
+.status-value.scheduled {
+  color: #0078d4;
+  font-weight: 600;
+}
+
+/* ─── Day Checkboxes ─────────────────────────────────────────── */
+.day-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+
+/* ─── Time Pickers ───────────────────────────────────────────── */
+.time-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.time-row label {
+  min-width: 40px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ─── Message Editor ─────────────────────────────────────────── */
+.message-editor {
+  width: 100%;
+  min-height: 200px;
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 11px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  resize: vertical;
+}
+
+.preview-frame {
+  width: 100%;
+  min-height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+}
+
+/* ─── Connection Badge ───────────────────────────────────────── */
+.connection-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.connection-badge.connected {
+  background: #edf7ed;
+  color: #2e7d32;
+}
+
+.connection-badge.disconnected {
+  background: #fdecea;
+  color: #d32f2f;
+}
